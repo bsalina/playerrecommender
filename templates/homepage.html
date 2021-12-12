@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>transfer recommender</title>
+    <!-- link to Bootstrap minified css-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- link to Jquery minified-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- link to Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- link to external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+<style>
+    html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 16px;
+      color: #eee;
+      }
+      h1, h2 {
+      text-transform: uppercase;
+      font-weight: 400;
+      }
+      h2 {
+      margin: 0 0 0 8px;
+      }
+      .main-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.5); 
+      }
+      .left-part, form {
+      padding: 25px;
+      }
+      .left-part {
+      text-align: center;
+      }
+      form {
+      background: rgba(0, 0, 0, 0.7); 
+      size: 100px;
+      }
+      .title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      }
+      .info {
+      display: flex;
+      flex-direction: column;
+      }
+      input, select {
+      padding: 5px;
+      margin-bottom: 30px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #eee;
+      }
+      input::placeholder {
+      color: #eee;
+      }
+      option:focus {
+      border: none;
+      }
+      option {
+      background: black; 
+      border: none;
+      }
+      .checkbox input {
+      margin: 0 10px 0 0;
+      vertical-align: middle;
+      }
+      .checkbox a {
+      color: #26a9e0;
+      }
+      .checkbox a:hover {
+      color: #85d6de;
+      }
+      .btn-item, button {
+      padding: 10px 5px;
+      margin-top: 20px;
+      border-radius: 5px; 
+      border: none;
+      background: #26a9e0; 
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 400;
+      color: #fff;
+      }
+      .btn-item {
+      display: inline-block;
+      margin: 20px 5px 0;
+      }
+      button {
+      width: 100%;
+      }
+      button:hover, .btn-item:hover {
+      background: #85d6de;
+      }
+      @media (min-width: 568px) {
+      html, body {
+      height: 100%;
+      }
+      .main-block {
+      flex-direction: row;
+      height: calc(100% - 50px);
+      }
+      .left-part, form {
+      flex: 1;
+      height: auto;
+      }
+      }
+    .item1 {
+  grid-column-start: 1;
+  grid-column-end: 12;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  background-color: #21f3e2;
+  padding: 10px;
+}
+.grid-container > div {
+  background-color: rgba(26, 23, 23, 0.8);
+  text-align: center;
+  padding: 10px 0;
+  font-size: 30px;
+}
+body {
+    
+    background-color: #8172c5;
+    background-image: url("/static/images/sd.png");
+  }
+table, th, td {
+  border: 1px solid black;
+  text-align: center;
+}
+th {
+  background-color: #04AA6D;
+  color: white;
+}
+
+</style>
+</head>
+<body>
+    <div id="banner-image">
+        <div class="container">
+            <div class="main-block">
+                <div class="left-part">
+                  <i class="fas fa-futbol" style='font-size:80px'></i>
+                  <h1>Please fill the requirements</h1>
+                  <p>We recommend the best players for your team.</p>
+                  <div class="btn-group">
+                    <a class="btn-item" href="https://www.playerrecommender.com">player recommender</a>
+                  </div>
+                </div>
+            <form method="post" action='/'>
+                      <div class="title">
+                        <i class="fas fa-pencil-alt"></i> 
+                        <h2>Player Information</h2>
+                      </div>
+                    <div class="info">
+                                    <h4>AGE</h4>
+                                            <label for="agefrom">From</label>
+                                            <input type="text" class="form-control" name="agefrom" value="{{ request.form['agefrom']}}">
+                                            <label for="ageto">To</label>
+                                            <input type="text" class="form-control" name="ageto" value="{{ request.form['ageto']}}">
+        
+                                    <h4>PREFERRED FOOT</h4>
+                                        <div class=" checkbox ">
+                                            <label for="preferedfoot">Left</label><input type="checkbox" name="preferedfoot" value="left">
+                                            <label for="preferedfoot">Right</label><input type="checkbox" name="preferedfoot" value="right">
+                                        </div>
+                            <h4>POSITION</h4>
+                                        <div class="dropdown">
+                                            <div class="form-group">
+                                                <div class="col-sm-6 col-md-4">
+                                                    <select name="position" class="form-control">
+                                                        <option value="">ANY</option>
+                                                        <option value="cf">CF</option>
+                                                        <option value="st">ST</option>
+                                                        <option value="lw">LW</option>
+                                                        <option value="cam">CAM</option>
+                                                        <option value="gk">GK</option>
+                                                        <option value="cb">CB</option>
+                                                        <option value="cdm">CDM</option>
+                                                        <option value="lb">LB</option>
+                                                        <option value="rb">RB</option>
+                                                        <option value="cm">CM</option>
+                                                        <option value="lm">LM</option>
+                                                        <option value="rw">RW</option>
+                                                        <option value="lwb">LWB</option>
+                                                        <option value="rwb">RWB</option>
+                                                        <option value="rm">RM</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <H4>POTENTIAL</H4>
+                                            <input type="text" class="form-control" name="potential" value="{{ request.form['potential'] }}">
+                     </div>
+                    <input id="btn-item" type="submit" value="Search" name="search" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="item1">RESULTS</div>
+        
+      </div>
+    <table>
+        <tr>
+            {% for col in column_names %}
+            <th>{{col}}</th>
+        
+            {% endfor %}
+        </tr>
+        {% for row in row_data %}
+        <tr>
+            {% for col, row_ in zip(column_names, row) %} {% if col == link_column %}
+            <td>
+                <a href="/player?id={{row_}}">
+                    {{ row_ }}
+                </a>
+            </td>
+            {% else %}
+            <td>      {{row_}}        </td>
+            {% endif %} {% endfor %}
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+
+</html>
